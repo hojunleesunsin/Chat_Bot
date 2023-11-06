@@ -8,6 +8,13 @@ class Text_Classification:
         self.text = text
         self.Sub = Sub
 
+    def Time_Pattern(self):
+        if "오전" in text:
+            return "오전"
+        elif "오후" in text:
+            return "오후"
+        elif "하루" in text:
+            return "하루"
     def Date_Pattern(self):
       # 연도를 option으로 사용하며 월,일만을 입력해도 인지 가능
         date_pattern = r"\b(?:\d{4}년\s*)?\d{1,2}월\s+\d{1,2}일\b"
@@ -43,17 +50,17 @@ class Text_Classification:
             Sub = self.Sub
         return Sub
 
-# Create an instance of the Text_Classification class
-classifier = Text_Classification(text, Sub)
+def text_classifier(text, sub):
+    classifier = Text_Classification(text, Sub)
 
-# Call the classification methods
-date = classifier.Date_Pattern()
-address = classifier.Address_Pattern()
-pay = classifier.pay_Pattern()
-Sub_text = classifier.Sub_TF()
+    time = classifier.Time_Pattern()
+    date = classifier.Date_Pattern()
+    address = classifier.Address_Pattern()
+    pay = classifier.Pay_Pattern()
+    Sub_text = classifier.Sub_TF()
 
-# Print the classified components
-print("Date:", date)
-print("Address:", address)
-print("Pay:", pay)
-print("Sub:", Sub_text)
+    print("Time", time)
+    print("Date:", date)
+    print("Address:", address)
+    print("Pay:", pay)
+    print("Sub:", Sub_text)
