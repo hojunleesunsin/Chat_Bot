@@ -12,5 +12,18 @@ def remove_chat_metadata(chat_export_file):
     cleaned_corpus = re.sub(pattern, "", content)
     return tuple(cleaned_corpus.split("\n"))
 
-if  __name__ == "__main__":
-    print(remove_chat_metadata("chat.txt"))
+def remove_non_message_text(export_text_lines):
+    message = export_text_lines[1:-1]
+
+    filter_out_msgs = ("<Media omittd>",)
+    return tuple((msg for msg in message if msg not in filter_out_msgs))
+
+def clean_corpus(chat_export_file):
+    message_corpus = remove_chat_metadata("chat.txt")
+    cleaned_corpus = remove_non_message_text(message_corpus)
+    print(cleaned_corpus)
+
+# if  __name__ == "__main__":
+#     message_corpus = remove_chat_metadata("chat.txt")
+#     cleaned_corpus = remove_non_message_text(message_corpus)
+#     print(cleaned_corpus)
