@@ -73,7 +73,7 @@ model = keras.Sequential([
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 model.fit(training, output, epochs=1500, batch_size=16, verbose=1)
 
-model.save("model_keras.h5")
+model.save("Chat_Bot.h5")
 
 exit_conditions = ("q", "quit", "exit")
 def chat():
