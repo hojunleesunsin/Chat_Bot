@@ -1,8 +1,5 @@
 import re
 
-text = "6월 34일, 서울시 강남구 서초동 30-5, 금영 주식회사, 36,000원."
-Sub = "기타 내용."
-
 class Text_Classification:
     def __init__(self, text, Sub):
         self.text = text
