@@ -82,6 +82,7 @@ def search_Info():
             # ObjectId를 문자열로 변환
             result['_id'] = str(result['_id'])
             # result.pop('_id', None)
+            print("데이터를 찾아서 전송했습니다.")
             return jsonify(result)
         else:
             return jsonify({"message": "해당 데이터가 존재하지 않습니다."}), 400
