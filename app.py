@@ -137,7 +137,7 @@ def delete_Info():
     
 
 @app.route('/update', methods=['POST'])
-def update_Info():a
+def update_Info():
     try:
         data = request.get_json()
     except Exception as e:
