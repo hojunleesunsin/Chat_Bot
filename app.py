@@ -110,7 +110,30 @@ def select_Info():
             return jsonify({"message": "해당 데이터가 존재하지 않습니다."}), 400
     except Exception as e:
         return jsonify({"message": f"데이터를 MongoDB에 읽어오던 중 오류 발생: {e}"}), 500
+
     
-    
+@app.route('/delete', methods=['POST'])
+def delete_Info():
+    try:
+        data = request.get_json()
+        if data:
+            year = data.pop("year", None)  # "year" 키를 삭제하고 해당 값을 변수에 저장
+            month = data.pop("month", None)  # "month" 키를 삭제하고 해당 값을 변수에 저장
+            day = data.pop("day", None)  # "day" 키를 삭제하고 해당 값을 변수에 저장
+            hour = data.pop("hour", None)  # "hour" 키를 삭제하고 해당 값을 변수에 저장
+            minute = data.pop("minute", None)  # "minute" 키를 삭제하고 해당 값을 변수에 저장
+            date_time = datetime.datetime(year, month, day, hour, minute)
+            data["date_time"] = date_time
+            existing_data = collection.count_documents({"date_time": data["date_time"], "name": data["name"], "age": data["age"], "cost": data["cost"]})
+            if existing_data > 0:
+                collection.delete_one({"date_time": data["date_time"], "name": data["name"], "age": data["age"], "cost": data["cost"]})
+                print("DB에서 데이터를 삭제하였습니다.")
+                return jsonify({"message": "성공적으로 삭제되었습니다."})
+            else:
+                print("존재하지 않는 데이터입니다.")
+                return jsonify({"message": "존재하지 않는 데이터 입니다."}), 400
+    except Exception as e:
+        return jsonify({"message": f"데이터를 삭제하던 중 오류 발생: {e}"}), 500
+
 if __name__ == '__main__':
     app.run(debug=True)
