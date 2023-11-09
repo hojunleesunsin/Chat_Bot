@@ -134,6 +134,14 @@ def delete_Info():
                 return jsonify({"message": "존재하지 않는 데이터 입니다."}), 400
     except Exception as e:
         return jsonify({"message": f"데이터를 삭제하던 중 오류 발생: {e}"}), 500
+    
+
+@app.route('/update', methods=['POST'])
+def update_Info():
+    try:
+        data = request.get_json()
+    except Exception as e:
+        return jsonify({"message": f"데이터를 업데이트 하던 중 오류 발생: {e}"}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
