@@ -1,9 +1,8 @@
 import requests
 import json
 
-# insert test
 # Flask 앱의 URL (로컬 또는 원격 서버 URL로 변경)
-url = 'http://localhost:5000/insert'  # Flask 앱의 URL로 변경
+url = "http://localhost:5000/insert"  # Flask 앱의 URL로 변경
 
 # 보낼 JSON 데이터
 data = {
@@ -30,7 +29,6 @@ else:
     print("데이터를 Flask 앱에 저장하는 중 오류 발생:", response.status_code)
 
 
-#select test
 # 서버 URL
 server_url = "http://localhost:5000/select"  # 서버 주소와 포트를 실제 서버에 맞게 수정해야 합니다
 
@@ -39,7 +37,7 @@ search_data = {
     "name": "이호준",
     "age": 24,
     "address": "불당 24로 38",
-    "cost": 50000
+    "cost": 60000
 }
 
 try:
@@ -59,11 +57,12 @@ try:
 
 except requests.exceptions.RequestException as e:
     print("서버와의 통신 중 오류 발생:", e)
+    
+    
 
-
-#delete test
 # 클라이언트에서 삭제할 데이터 정보
 data_to_delete = {
+    "id": 'ObjectId',
     "year": 2023,
     "month": 11,
     "day": 9,
@@ -91,3 +90,26 @@ elif response.status_code == 404:
 else:
     print("서버로부터 오류 응답을 받았습니다.")
     print("응답 내용:", response.json())
+
+
+import requests
+import json
+
+# 서버의 주소와 엔드포인트 설정
+server_url = "http://localhost:5000/update"
+
+# 업데이트할 데이터 및 문서 ID 설정
+update_data = {"name": "NewName", "age": 30}
+document_id = "ObjectId"  # 서버에서 실제 데이터베이스에서 사용되는 문서의 ID로 교체
+
+# 요청 데이터 설정
+request_data = {"id": document_id, "update_data": update_data}
+
+# 서버에 HTTP POST 요청 보내기
+response = requests.post(server_url, json=request_data)
+
+# 서버의 응답 확인
+if response.status_code == 200:
+    print("업데이트 성공:", response.json())
+else:
+    print("업데이트 실패:", response.status_code, response.json())
