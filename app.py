@@ -3,6 +3,7 @@ from chatterbot import ChatBot
 from chatterbot.trainers import ListTrainer
 from pymongo import MongoClient
 import datetime
+from bson import ObjectId
 from Main_Text_Classification_Model import text_classifier as tc
 from Bot import chat
 
@@ -116,17 +117,20 @@ def select_Info():
 def delete_Info():
     try:
         data = request.get_json()
-        if data:
-            year = data.pop("year", None)  # "year" 키를 삭제하고 해당 값을 변수에 저장
-            month = data.pop("month", None)  # "month" 키를 삭제하고 해당 값을 변수에 저장
-            day = data.pop("day", None)  # "day" 키를 삭제하고 해당 값을 변수에 저장
-            hour = data.pop("hour", None)  # "hour" 키를 삭제하고 해당 값을 변수에 저장
-            minute = data.pop("minute", None)  # "minute" 키를 삭제하고 해당 값을 변수에 저장
-            date_time = datetime.datetime(year, month, day, hour, minute)
-            data["date_time"] = date_time
-            existing_data = collection.count_documents({"date_time": data["date_time"], "name": data["name"], "age": data["age"], "cost": data["cost"]})
+        if "id" in data:
+            # year = data.pop("year", None)  # "year" 키를 삭제하고 해당 값을 변수에 저장
+            # month = data.pop("month", None)  # "month" 키를 삭제하고 해당 값을 변수에 저장
+            # day = data.pop("day", None)  # "day" 키를 삭제하고 해당 값을 변수에 저장
+            # hour = data.pop("hour", None)  # "hour" 키를 삭제하고 해당 값을 변수에 저장
+            # minute = data.pop("minute", None)  # "minute" 키를 삭제하고 해당 값을 변수에 저장
+            # date_time = datetime.datetime(year, month, day, hour, minute)
+            # data["date_time"] = date_time
+            # existing_data = collection.count_documents({"date_time": data["date_time"], "name": data["name"], "age": data["age"], "cost": data["cost"]})
+            document_id = ObjectId(data["id"])
+            existing_data = collection.count_documents({"_id": document_id})
             if existing_data > 0:
-                collection.delete_one({"date_time": data["date_time"], "name": data["name"], "age": data["age"], "cost": data["cost"]})
+                # collection.delete_one({"date_time": data["date_time"], "name": data["name"], "age": data["age"], "cost": data["cost"]})
+                collection.delete_one({"_id": document_id})
                 print("DB에서 데이터를 삭제하였습니다.")
                 return jsonify({"message": "성공적으로 삭제되었습니다."})
             else:
@@ -140,8 +144,24 @@ def delete_Info():
 def update_Info():
     try:
         data = request.get_json()
+        if "id" in data:
+            document_id = ObjectId(data["id"])
+            existing_data = collection.count_documents({"_id": document_id})
+            if existing_data > 0:
+                update_data = data.get("update_data", {})
+                if update_data:
+                    # $set 오퍼레이터를 사용하여 필드를 업데이트
+                    collection.update_one({"_id": document_id}, {"$set": update_data})
+                    print("DB에서 데이터를 업데이트하였습니다.")
+                    return jsonify({"message": "성공적으로 업데이트되었습니다."})
+                else:
+                    return jsonify({"message": "업데이트할 데이터가 제공되지 않았습니다."}), 400
+            else:
+                print("존재하지 않는 데이터입니다.")
+                return jsonify({"message": "존재하지 않는 데이터 입니다."}), 400
     except Exception as e:
-        return jsonify({"message": f"데이터를 업데이트 하던 중 오류 발생: {e}"}), 500
+        return jsonify({"message": f"데이터를 수정하던 중 오류 발생: {e}"}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True)
