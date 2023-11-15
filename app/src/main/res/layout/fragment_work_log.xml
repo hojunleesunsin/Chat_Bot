@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/layout">
+
+    <TextView
+        android:id="@+id/work_title"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="작업일지"
+        android:background="@drawable/bottom_border"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="13"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/work_date"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:background="@drawable/border"
+            android:gravity="center"
+            android:padding="3dp"
+            android:text="날짜"
+            app:layout_constraintEnd_toStartOf="@+id/work_date_input"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/work_date_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:background="@drawable/border"
+            android:padding="3dp"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="@+id/work_date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_default="wrap"
+            app:layout_constraintStart_toEndOf="@+id/work_date"
+            app:layout_constraintTop_toTopOf="@+id/work_date" />
+
+        <TextView
+            android:id="@+id/work_company"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:background="@drawable/border"
+            android:gravity="center"
+            android:padding="3dp"
+            android:text="회사"
+            app:layout_constraintEnd_toStartOf="@+id/work_company_input"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/work_date" />
+
+        <EditText
+            android:id="@+id/work_company_input"
+            android:inputType="text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:background="@drawable/border"
+            android:padding="3dp"
+            android:gravity="center"
+            android:singleLine="true"
+            app:layout_constraintBottom_toBottomOf="@+id/work_company"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_default="wrap"
+            app:layout_constraintStart_toEndOf="@+id/work_company"
+            app:layout_constraintTop_toBottomOf="@+id/work_date_input"
+            app:layout_constraintTop_toTopOf="@+id/work_company" />
+
+        <TextView
+            android:id="@+id/work_site"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:background="@drawable/border"
+            android:gravity="center"
+            android:padding="3dp"
+            android:text="현장"
+            app:layout_constraintEnd_toStartOf="@+id/work_site_input"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/work_company" />
+
+        <EditText
+            android:id="@+id/work_site_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:background="@drawable/border"
+            android:padding="3dp"
+            android:gravity="center"
+            android:singleLine="true"
+            app:layout_constraintBottom_toBottomOf="@+id/work_site"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_default="wrap"
+            app:layout_constraintStart_toEndOf="@+id/work_site"
+            app:layout_constraintTop_toBottomOf="@+id/work_company_input"
+            app:layout_constraintTop_toTopOf="@+id/work_site" />
+
+        <Button
+            android:id="@+id/reset"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border"
+            android:gravity="center"
+            android:padding="3dp"
+            android:text="지우기"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/write"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/work_site_input"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <Button
+            android:id="@+id/write"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border"
+            android:gravity="center"
+            android:padding="3dp"
+            android:text="일지작성"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/reset"
+            app:layout_constraintTop_toBottomOf="@+id/work_site_input"
+            app:layout_constraintVertical_bias="1.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

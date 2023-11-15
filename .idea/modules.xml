@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Chat_Bot.iml" filepath="$PROJECT_DIR$/.idea/Chat_Bot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/myapp.iml" filepath="$PROJECT_DIR$/.idea/modules/myapp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/myapp.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/myapp.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/myapp.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/myapp.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/myapp.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/myapp.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/myapp.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/myapp.app.unitTest.iml" />
     </modules>
   </component>
 </project>

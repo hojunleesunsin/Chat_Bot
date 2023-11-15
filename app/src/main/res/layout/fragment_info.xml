@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:padding="16dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        android:padding="16dp"
+        tools:context=".MainActivity">
+
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profileImageView"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/default_profile_image"
+            app:civ_border_color="#FFFFFF"
+            app:civ_border_overlay="true"
+            app:civ_border_width="0dp" />
+
+        <Button
+            android:id="@+id/selectImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profileImageView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/round_button1"
+            android:fontFamily="@font/bold"
+            android:text="　　　이미지 선택　　　"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/deleteImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/selectImageButton"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/round_button2"
+            android:fontFamily="@font/bold"
+            android:text="　　　이미지 삭제　　　"
+            android:textColor="#4A4C4F" />
+
+        <TextView
+            android:id="@+id/personalInfoLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/deleteImageButton"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/bold"
+            android:text="개인정보"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/nameLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/personalInfoLabel"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/bold"
+            android:text="이름" />
+
+        <EditText
+            android:id="@+id/nameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/nameLabel"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/round_edittext"
+            android:fontFamily="@font/bold"
+            android:hint="이름"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:scrollHorizontally="false"
+            android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/companyLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/nameEditText"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/bold"
+            android:text="상호" />
+
+        <EditText
+            android:id="@+id/companyEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/companyLabel"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/round_edittext"
+            android:fontFamily="@font/bold"
+            android:hint="상호"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/emailLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/companyEditText"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/bold"
+            android:text="이메일" />
+
+        <EditText
+            android:id="@+id/emailEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/emailLabel"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/round_edittext"
+            android:fontFamily="@font/bold"
+            android:hint="이메일"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/telecomLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/emailEditText"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/bold"
+            android:text="통신사" />
+
+        <Spinner
+            android:id="@+id/telecomSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/telecomLabel"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/round_edittext"
+            android:fontFamily="@font/bold"
+            android:hint="통신사"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp" />
+
+        <TextView
+            android:id="@+id/phoneLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/telecomSpinner"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/bold"
+            android:text="휴대폰 번호" />
+
+        <EditText
+            android:id="@+id/phoneEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/phoneLabel"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/round_edittext"
+            android:fontFamily="@font/bold"
+            android:hint="휴대폰 번호"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/faxLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/phoneEditText"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/bold"
+            android:text="팩스 번호" />
+
+        <EditText
+            android:id="@+id/faxEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/faxLabel"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/round_edittext"
+            android:fontFamily="@font/bold"
+            android:hint="팩스 번호"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/houseInfoLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/faxEditText"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/bold"
+            android:text="집 정보"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/houseLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/houseInfoLabel"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/bold"
+            android:text="집 주소" />
+
+        <EditText
+            android:id="@+id/addressEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/houseLabel"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/round_edittext"
+            android:fontFamily="@font/bold"
+            android:hint="건물, 지번 또는 도로명 주소"
+            android:focusable="false"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:singleLine="true" />
+
+        <EditText
+            android:id="@+id/addressEditText2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/addressEditText"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/round_edittext"
+            android:fontFamily="@font/bold"
+            android:hint="상세 주소"
+            android:maxLines="1"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/carInfoLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/addressEditText2"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/bold"
+            android:text="차 정보"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/carLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/carInfoLabel"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/bold"
+            android:text="차 종류" />
+
+        <EditText
+            android:id="@+id/carTypeEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/carLabel"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/round_edittext"
+            android:fontFamily="@font/bold"
+            android:hint="차종"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/carNumberLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/carTypeEditText"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/bold"
+            android:text="차 번호" />
+
+        <EditText
+            android:id="@+id/carNumberEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/carNumberLabel"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/round_edittext"
+            android:fontFamily="@font/bold"
+            android:hint="차 번호"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:singleLine="true" />
+
+    </RelativeLayout>
+
+</ScrollView>
+
