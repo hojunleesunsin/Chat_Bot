@@ -46,7 +46,7 @@ class Text_Classification:
         else:
             Sub = self.Sub
         return Sub
-
+# 코드 사용 예시
 def text_classifier(text, sub):
     classifier = Text_Classification(text, sub)
 

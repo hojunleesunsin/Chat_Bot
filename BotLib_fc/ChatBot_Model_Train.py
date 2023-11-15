@@ -2,11 +2,7 @@ import numpy as np
 from tensorflow import keras
 from Data_PreProcess import Data_PreProcess
 import nltk
-from nltk.stem.lancaster import LancasterStemmer
-# from konlpy.tag import Mecab
 nltk.download('punkt')
-stemmer = LancasterStemmer()
-# mecab = Mecab()
 
 _, _, _, training, output = Data_PreProcess()
 
