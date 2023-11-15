@@ -2,10 +2,12 @@ import nltk
 from nltk.stem.lancaster import LancasterStemmer
 import numpy as np
 import json
+from konlpy.tag import Mecab
 
 def Data_PreProcess(intents_path='intents.json'):
     nltk.download('punkt')
     stemmer = LancasterStemmer()
+    mecab = Mecab()
 
     with open(intents_path) as file:
         data = json.load(file)
@@ -17,7 +19,8 @@ def Data_PreProcess(intents_path='intents.json'):
 
     for intent in data['intents']:
         for pattern in intent['patterns']:
-            wrds = nltk.word_tokenize(pattern)
+            # 한국어 형태소 분석기 사용
+            wrds = mecab.morphs(pattern)
             words.extend(wrds)
             docs_x.append(wrds)
             docs_y.append(intent["tag"])

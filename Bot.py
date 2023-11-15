@@ -2,14 +2,17 @@ import numpy as np
 import random
 from tensorflow import keras
 import nltk
-from nltk.stem.lancaster import LancasterStemmer
-nltk.download('punkt')
-stemmer = LancasterStemmer()
 from BotLib_fc.Data_PreProcess import Data_PreProcess
 from BotLib_fc.bag_of_words import bag_of_words
 from BotLib_fc.Main_Text_Classification_Model import Text_Classification
+from nltk.stem.lancaster import LancasterStemmer
+nltk.download('punkt')
+stemmer = LancasterStemmer()
+from konlpy.tag import Mecab
+mecab = Mecab()
+
 # pip install git+https://github.com/ssut/pu-hanspell.git
-# from hanspell import spell_checker
+# from py_hanspell.hanspell import spell_checker
 # 한국어 품사 태깅
 # pip install kss
 # import kss
@@ -17,7 +20,7 @@ from BotLib_fc.Main_Text_Classification_Model import Text_Classification
 
 words, labels, data,_ ,_ = Data_PreProcess()
 # 모델 학습 다시 시켜야함
-# intents.json 파일 변경, 현재 모델 학습에 문제가 있음 or tensorflow 문제있음
+# intents_train.json 파일 변경, 현재 모델 학습에 문제가 있음 or tensorflow 문제있음
 model = keras.models.load_model("Chat_Bot.h5")
 
 exit_conditions = ("q", "quit", "exit", "그만", "종료")
@@ -34,6 +37,30 @@ def chat():
             else:
                 print(f"{q}합니다.")
             break
+            # 이거 DB에 저장하면 초기화 시켜줘야함
+            Update_Data = {
+                "time": None,
+                "date": None,
+                "address": None,
+                "pay": None
+            }
+            classifier = Text_Classification(q, None)
+            time = classifier.Time_Pattern()
+            date = classifier.Date_Pattern()
+            address = classifier.Address_Pattern()
+            pay = classifier.Pay_Pattern()
+
+            if time is not None:
+                Update_Data["time"] = time
+            if date is not None:
+                Update_Data["date"] = date
+            if address is not None:
+                Update_Data["address"] = address
+            if pay is not None:
+                Update_Data["pay"] = pay
+            if time is not None or date is not None or address is not None or pay is not None:
+                # 이거는 어디다 둬야할지 고민중임
+                print("Your request Data is it?:", Update_Data)
 
         ret = model.predict(np.array([bag_of_words(q, words)]))
         ret_index = np.argmax(ret)
@@ -41,36 +68,13 @@ def chat():
 
         responses = []
 
-        for tg in data["intents.json"]:
+        for tg in data["intents_train.json"]:
             if tg['tag'] == tag:
                 responses = tg.get('responses', [])
         if not responses:
             print("I'm Sorry, I dont understand")
         else:
             print(random.choice(responses))
-    # 이거 DB에 저장하면 초기화 시켜줘야함
-    Update_Data = {
-        "time": None,
-        "date": None,
-        "address": None,
-        "pay": None
-    }
-    classifier = Text_Classification(q, None)
-    time = classifier.Time_Pattern()
-    date = classifier.Date_Pattern()
-    address = classifier.Address_Pattern()
-    pay = classifier.Pay_Pattern()
 
-    if time is not None:
-        Update_Data["time"] = time
-    if date is not None:
-        Update_Data["date"] = date
-    if address is not None:
-        Update_Data["address"] = address
-    if pay is not None:
-        Update_Data["pay"] = pay
-    if time is not None or date is not None or address is not None or pay is not None:
-        # 이거는 어디다 둬야할지 고민중임
-        print("Your request Data is it?:", Update_Data)
 
 chat()

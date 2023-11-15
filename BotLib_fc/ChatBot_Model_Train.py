@@ -3,16 +3,19 @@ from tensorflow import keras
 from Data_PreProcess import Data_PreProcess
 import nltk
 from nltk.stem.lancaster import LancasterStemmer
+# from konlpy.tag import Mecab
 nltk.download('punkt')
 stemmer = LancasterStemmer()
+# mecab = Mecab()
 
 _, _, _, training, output = Data_PreProcess()
 
 training = np.array(training)
 output = np.array(output)
 
+input_size = len(training[0])
 model = keras.Sequential([
-    keras.layers.Input(shape=(len(training[0]),)),
+    keras.layers.Input(shape=(input_size,)),
     keras.layers.Dense(8, activation='relu'),
     keras.layers.Dense(8, activation='relu'),
     keras.layers.Dense(len(output[0]), activation='softmax')

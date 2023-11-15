@@ -11,5 +11,5 @@
   "responses":  ["Ok talk to me!<HM:HelpMessage, >", "What are you going?<HM:HelpMessage, >"]},
   {"tag":  "HelpMessage",
   "patterns": ["HM"],
-  "responses":  ["Ok i'm understand, talk to continue<물어볼 내용>"]}
+  "responses":  ["Ok i'm understand, talk to continue"]}
 ]}
