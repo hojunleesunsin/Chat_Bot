@@ -5,7 +5,6 @@ from pymongo import MongoClient
 import datetime
 from bson import ObjectId
 from Main_Text_Classification_Model import text_classifier as tc
-from Bot import chat
 
 mongo_connect = "mongodb+srv://hongpc0099:hoz26064247@worklog.dxlbirn.mongodb.net/?retryWrites=true&w=majority"
 client = MongoClient(mongo_connect)

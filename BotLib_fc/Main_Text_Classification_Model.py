@@ -6,11 +6,11 @@ class Text_Classification:
         self.Sub = Sub
 
     def Time_Pattern(self):
-        if "오전" in text:
+        if "오전" in self.text:
             return "오전"
-        elif "오후" in text:
+        elif "오후" in self.text:
             return "오후"
-        elif "하루" in text:
+        elif "하루" in self.text:
             return "하루"
     def Date_Pattern(self):
       # 연도를 option으로 사용하며 월,일만을 입력해도 인지 가능
@@ -48,7 +48,7 @@ class Text_Classification:
         return Sub
 
 def text_classifier(text, sub):
-    classifier = Text_Classification(text, Sub)
+    classifier = Text_Classification(text, sub)
 
     time = classifier.Time_Pattern()
     date = classifier.Date_Pattern()

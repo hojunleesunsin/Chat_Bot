@@ -6,7 +6,7 @@ from nltk.stem.lancaster import LancasterStemmer
 nltk.download('punkt')
 stemmer = LancasterStemmer()
 
-training, output = Data_PreProcess()
+_, _, _, training, output = Data_PreProcess()
 
 training = np.array(training)
 output = np.array(output)
