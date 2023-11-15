@@ -29,7 +29,7 @@ def chat():
     print("Start talking with your bot (type quit to stop)!")
     while True:
         input_data = input(">: ")
-        q_check = sepll_ckecker.check(input_data)
+        q_check = spell_checker.check(input_data)
         q = q_check.checked
         if q in exit_conditions:
             break
