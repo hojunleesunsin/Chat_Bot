@@ -117,14 +117,14 @@ def delete_Info():
     try:
         data = request.get_json()
         if "id" in data:
-            # year = data.pop("year", None)  # "year" 키를 삭제하고 해당 값을 변수에 저장
-            # month = data.pop("month", None)  # "month" 키를 삭제하고 해당 값을 변수에 저장
-            # day = data.pop("day", None)  # "day" 키를 삭제하고 해당 값을 변수에 저장
-            # hour = data.pop("hour", None)  # "hour" 키를 삭제하고 해당 값을 변수에 저장
-            # minute = data.pop("minute", None)  # "minute" 키를 삭제하고 해당 값을 변수에 저장
-            # date_time = datetime.datetime(year, month, day, hour, minute)
-            # data["date_time"] = date_time
-            # existing_data = collection.count_documents({"date_time": data["date_time"], "name": data["name"], "age": data["age"], "cost": data["cost"]})
+            year = data.pop("year", None)  # "year" 키를 삭제하고 해당 값을 변수에 저장
+            month = data.pop("month", None)  # "month" 키를 삭제하고 해당 값을 변수에 저장
+            day = data.pop("day", None)  # "day" 키를 삭제하고 해당 값을 변수에 저장
+            hour = data.pop("hour", None)  # "hour" 키를 삭제하고 해당 값을 변수에 저장
+            minute = data.pop("minute", None)  # "minute" 키를 삭제하고 해당 값을 변수에 저장
+            date_time = datetime.datetime(year, month, day, hour, minute)
+            data["date_time"] = date_time
+            existing_data = collection.count_documents({"date_time": data["date_time"], "name": data["name"], "age": data["age"], "cost": data["cost"]})
             document_id = ObjectId(data["id"])
             existing_data = collection.count_documents({"_id": document_id})
             if existing_data > 0:
