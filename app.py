@@ -1,9 +1,10 @@
 from flask import Flask, request, jsonify
+from pymongo import MongoClient
+from datetime import datetime, timedelta
+from bson import ObjectId
 from chatterbot import ChatBot
 from chatterbot.trainers import ListTrainer
-from pymongo import MongoClient
-import datetime
-from bson import ObjectId
+from Bot import chat
 from Main_Text_Classification_Model import text_classifier as tc
 
 mongo_connect = "mongodb+srv://hongpc0099:hoz26064247@worklog.dxlbirn.mongodb.net/?retryWrites=true&w=majority"
@@ -16,7 +17,7 @@ app = Flask(__name__)
 
 Corpus_File = "chat.txt"
 
-text = "6월 34일, 서울시 강남구 서초동 30-5, 금영 주식회사, 36,000원."
+text = "6월 34일, 서울시 강남구 서초동 30-5, 36,000원."
 sub = "기타 내용."
 
 chatbot = ChatBot("chatpot")
@@ -69,7 +70,7 @@ def insert_Info():
             day = data.pop("day", None)  # "day" 키를 삭제하고 해당 값을 변수에 저장
             hour = data.pop("hour", None)  # "hour" 키를 삭제하고 해당 값을 변수에 저장
             minute = data.pop("minute", None)  # "minute" 키를 삭제하고 해당 값을 변수에 저장
-            date_time = datetime.datetime(year, month, day, hour, minute)
+            date_time = datetime(year, month, day, hour, minute)
             data["date_time"] = date_time 
             # 중복 데이터 확인: name, age, address 모두 동일한 경우 중복으로 처리
             # existing_data = collection.find_one({"name": data["name"], "age": data["age"], "address": data["address"], "cost": data["cost"]})
@@ -90,9 +91,29 @@ def insert_Info():
 def select_Info():
     try:
         data = request.get_json()
+        
+        query = {"$and": []}
+
+        if data.get("name"):
+            query["$and"].append({"name": data["name"]})
+        if data.get("age"):
+            query["$and"].append({"age": data["age"]})
+        if data.get("address"):
+            query["$and"].append({"address": data["address"]})
+        if data.get("start_date") and data.get("end_date"):
+            start_date = datetime.strptime(data["start_date"], "%Y-%m-%d")
+            end_date = datetime.strptime(data["end_date"], "%Y-%m-%d") + timedelta(days=1)
+            query["$and"].append({"date_time": {"$gte": start_date, "$lte": end_date}})
+
+        if not query["$and"]:
+            return jsonify({"message": "적어도 하나의 검색 조건을 제공해야 합니다."}), 400
+        
+        # 입력한 데이터 중 하나라도 일치하는 데이터 DB에 있는지 확인
+        result = collection.find(query)
+        
+        count = collection.count_documents(query)
         #입력한 데이터 DB에 있는지 확인
-        result = collection.find({"name": data["name"], "age": data["age"], "address": data["address"]})
-        if result:
+        if count > 0:
             result_list = list(result)
             for item in result_list:
             # ObjectId를 문자열로 변환
@@ -110,21 +131,21 @@ def select_Info():
             return jsonify({"message": "해당 데이터가 존재하지 않습니다."}), 400
     except Exception as e:
         return jsonify({"message": f"데이터를 MongoDB에 읽어오던 중 오류 발생: {e}"}), 500
-
     
-@app.route('/delete', methods=['POST'])
+
+@app.route('/delete', methods=['DELETE'])
 def delete_Info():
     try:
         data = request.get_json()
         if "id" in data:
-            year = data.pop("year", None)  # "year" 키를 삭제하고 해당 값을 변수에 저장
-            month = data.pop("month", None)  # "month" 키를 삭제하고 해당 값을 변수에 저장
-            day = data.pop("day", None)  # "day" 키를 삭제하고 해당 값을 변수에 저장
-            hour = data.pop("hour", None)  # "hour" 키를 삭제하고 해당 값을 변수에 저장
-            minute = data.pop("minute", None)  # "minute" 키를 삭제하고 해당 값을 변수에 저장
-            date_time = datetime.datetime(year, month, day, hour, minute)
-            data["date_time"] = date_time
-            existing_data = collection.count_documents({"date_time": data["date_time"], "name": data["name"], "age": data["age"], "cost": data["cost"]})
+            # year = data.pop("year", None)  # "year" 키를 삭제하고 해당 값을 변수에 저장
+            # month = data.pop("month", None)  # "month" 키를 삭제하고 해당 값을 변수에 저장
+            # day = data.pop("day", None)  # "day" 키를 삭제하고 해당 값을 변수에 저장
+            # hour = data.pop("hour", None)  # "hour" 키를 삭제하고 해당 값을 변수에 저장
+            # minute = data.pop("minute", None)  # "minute" 키를 삭제하고 해당 값을 변수에 저장
+            # date_time = datetime.datetime(year, month, day, hour, minute)
+            # data["date_time"] = date_time
+            # existing_data = collection.count_documents({"date_time": data["date_time"], "name": data["name"], "age": data["age"], "cost": data["cost"]})
             document_id = ObjectId(data["id"])
             existing_data = collection.count_documents({"_id": document_id})
             if existing_data > 0:
@@ -160,7 +181,6 @@ def update_Info():
                 return jsonify({"message": "존재하지 않는 데이터 입니다."}), 400
     except Exception as e:
         return jsonify({"message": f"데이터를 수정하던 중 오류 발생: {e}"}), 500
-
-
+    
 if __name__ == '__main__':
     app.run(debug=True)
