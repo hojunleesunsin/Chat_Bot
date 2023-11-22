@@ -21,6 +21,8 @@ import java.io.FileOutputStream
 import java.util.*
 import android.Manifest
 import android.os.Environment
+import org.json.JSONObject
+import java.net.Socket
 
 class WorkLogFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -60,6 +62,18 @@ class WorkLogFragment : Fragment() {
             val date = workDateInput.text.toString()
             val company = workCompanyInput.text.toString()
             val site = workSiteInput.text.toString()
+            if(date.isNotEmpty() && company.isNotEmpty() && site.isNotEmpty()){
+                val jsonData = JSONObject().apply {
+                    put("date", date)
+                    put("company", company)
+                    put("site", site)
+                }
+                SocketManager.getSocket()?.emit("EventName", jsonData)
+                Log.d("WorkLogFragment", "push") // 'YourFragment'는 로그 태그, 'push'는 로그 메시지입니다.
+            }
+            else{
+                //데이터가 비어있을경우 발생 코드추가 예정
+            }
             saveDataToFile("Date: $date\nCompany: $company\nSite: $site")
         }
 
