@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import io.socket.client.IO
 import io.socket.client.Socket
+import java.net.URI
 import java.net.URISyntaxException
 class MainActivity : AppCompatActivity() {
 
@@ -15,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         try {
-            val socket = IO.socket("http://10.0.2.2:777")
+            val socket = IO.socket(URI.create("http://172.30.1.32:777"))
             SocketManager.setSocket(socket)
             SocketManager.connect()
         } catch (e: URISyntaxException) {
