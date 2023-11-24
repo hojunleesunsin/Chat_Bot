@@ -2,14 +2,13 @@ from flask import Flask, request, jsonify
 from pymongo import MongoClient
 from datetime import datetime, timedelta
 from bson import ObjectId
-from chatterbot import ChatBot
-from chatterbot.trainers import ListTrainer
-from Bot import chat
-from Main_Text_Classification_Model import text_classifier as tc
+from Bot import exit_conditions, help
+from BotLib_fc.Main_Text_Classification_Model import Text_Classification as tc
+import json
 
 mongo_connect = "mongodb+srv://hongpc0099:hoz26064247@worklog.dxlbirn.mongodb.net/?retryWrites=true&w=majority"
 client = MongoClient(mongo_connect)
-db = mongo_connect["WorkLog"]
+db = client["WorkLog"]
 collection = db["Info"]
 
 
@@ -20,38 +19,62 @@ Corpus_File = "chat.txt"
 text = "6월 34일, 서울시 강남구 서초동 30-5, 36,000원."
 sub = "기타 내용."
 
-chatbot = ChatBot("chatpot")
+Update_Data = {
+            "time": None,
+            "date": None,
+            "address": None,
+            "pay": None
+            }    
 
-trainer = ListTrainer(chatbot)
-# trainer = ([
-#     "Hi",
-#     "Welcome, My friend",
-# ])
-# trainer.train([
-#     "Are you Plant?",
-#     "No, I'm the pot below the plant",
-# ])
-
-clean_corpus = clean_corpus(Corpus_File)
-trainer.train(clean_corpus)
 # 프로젝트 주요 텍스트 분류 코드
 @app.route('/classify_text', methods=['POST'])
 def classify_text():
-    data = request.get_json()
-    text = data.get('text')
-    sub = data.get('sub')
+    try:
+        data = request.get_json()
+        text = data.get('text')
 
-    exit_conditions = ("q", "quit", "exit")
-    while True:
-        query = input("> ")
-        if query in exit_conditions:
-            break
         if not text:
-            print("text is empty")
-        else :
-            response = trainer.train(tc(text, sub))
-            print(f"{chatbot.get_response(query)}")
-            return jsonify({'response': response})
+            return jsonify({"message": "Text is empty"}), 400
+        
+        elif text in exit_conditions:
+            if text == "q":
+                print(f"{text}? Ok, I understand. Program exit")
+            else:
+                print(f"{text}합니다.")
+        elif text.lower() == 'help':
+            help()
+        else:
+            classifier = tc(text, None)
+            time = classifier.Time_Pattern()
+            date = classifier.Date_Pattern()
+            address = classifier.Address_Pattern()
+            pay = classifier.Pay_Pattern()
+        
+            if time is not None:
+                Update_Data["time"] = time
+            if date is not None:
+                Update_Data["date"] = date
+            if address is not None:
+                Update_Data["address"] = address
+            if pay is not None:
+                Update_Data["pay"] = pay
+
+            if time is not None or date is not None or address is not None or pay is not None:
+                print("당신이 작성한 내용이 이것이 맞습니까?:", Update_Data)
+                
+                collection.insert_one(Update_Data)
+                
+                # Initialize Update_Data to an empty state
+                Update_Data = {
+                    "time": None,
+                    "date": None,
+                    "address": None,
+                    "pay": None
+                }
+                return jsonify({"message": "데이터가 성공적으로 MongoDB에 저장되었습니다."}), 201  
+
+    except Exception as e:
+        return jsonify({"message": f"데이터를 MongoDB에 저장하는 중 오류 발생: {e}"}), 500
 
         
 @app.errorhandler(Exception)
