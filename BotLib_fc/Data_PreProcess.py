@@ -1,11 +1,20 @@
 import nltk
-from nltk.stem.lancaster import LancasterStemmer
 import numpy as np
 import json
+import urllib.request
+from soynlp import DoublespaceLineCorpus
+from soynlp.word import WordExtractor
+from konlpy.tag import Okt
+from hanspell.hanspell import spell_checker
 
+urllib.request.urlretrieve("https://raw.githubusercontent.com/lovit/soynlp/master/tutorials/2016-10-20.txt", filename="2016-10-20.txt")
+# 훈련 데이터를 다수의 문서로 분리
+corpus = DoublespaceLineCorpus("2016-10-20.txt")
+len(corpus)
+spell_checker.check(sent)
 def Data_PreProcess(intents_path='intents.json'):
     nltk.download('punkt')
-    stemmer = LancasterStemmer()
+    tokenizer = Okt()
 
     with open(intents_path) as file:
         data = json.load(file)
@@ -17,7 +26,8 @@ def Data_PreProcess(intents_path='intents.json'):
 
     for intent in data['intents']:
         for pattern in intent['patterns']:
-            wrds = nltk.word_tokenize(pattern)
+            # 한국어 형태소 분석기 사용
+            wrds = tokenizer.morphs(pattern)
             words.extend(wrds)
             docs_x.append(wrds)
             docs_y.append(intent["tag"])

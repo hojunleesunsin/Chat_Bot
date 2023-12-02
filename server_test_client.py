@@ -1,5 +1,6 @@
 import requests
 import json
+from datetime import datetime
 
 # Flask 앱의 URL (로컬 또는 원격 서버 URL로 변경)
 url = "http://localhost:5000/insert"  # Flask 앱의 URL로 변경
@@ -8,13 +9,13 @@ url = "http://localhost:5000/insert"  # Flask 앱의 URL로 변경
 data = {
     "year": 2022,
     "month": 11,
-    "day": 9,
-    "hour": 14,
-    "minute": 55,
-    "name": "이호준",
-    "age": 24,
-    "address": "불당 24로 38",
-    "cost": 60000
+    "day": 30,
+    "hour": 22,
+    "minute": 30,
+    "name": "한석규",
+    "age": 35,
+    "address": "쌍용 38로 12",
+    "cost": 70000
 }
 
 # JSON 데이터를 Flask 앱으로 POST 요청을 보냄
@@ -32,12 +33,15 @@ else:
 # 서버 URL
 server_url = "http://localhost:5000/select"  # 서버 주소와 포트를 실제 서버에 맞게 수정해야 합니다
 
+start_date = datetime.strptime("2022-11-01", "%Y-%m-%d")
+end_date = datetime.strptime("2022-11-10", "%Y-%m-%d")
 # 클라이언트에서 검색할 데이터
 search_data = {
-    "name": "이호준",
-    "age": 24,
-    "address": "불당 24로 38",
-    "cost": 60000
+    "name": "한석규",
+    "address": "쌍용 38로 12",
+    "age": 35,
+    "start_date": start_date.strftime("%Y-%m-%d"), 
+    "end_date": end_date.strftime("%Y-%m-%d")
 }
 
 try:
@@ -61,35 +65,20 @@ except requests.exceptions.RequestException as e:
     
 
 # 클라이언트에서 삭제할 데이터 정보
-data_to_delete = {
-    "id": 'ObjectId',
-    "year": 2023,
-    "month": 11,
-    "day": 9,
-    "hour": 14,
-    "minute": 55,
-    "name": "이호준",
-    "age": 24,
-    "address": "불당 24로 38",
-    "cost": 60000
-}
+Data_To_Delete = {"id": '655cc09a814402b38ad6cdd2'}
 
 # 서버의 URL 설정
 server_url = "http://localhost:5000/delete"  # 서버 주소와 엔드포인트에 맞게 수정
 
 # POST 요청 보내기
-response = requests.post(server_url, json=data_to_delete)
+response = requests.delete(server_url, json=Data_To_Delete)
 
-# 서버 응답 확인
 if response.status_code == 200:
-    print("서버로부터 성공적인 응답을 받았습니다.")
-    print("응답 내용:", response.json())
-elif response.status_code == 404:
-    print("서버로부터 데이터가 존재하지 않는 응답을 받았습니다.")
-    print("응답 내용:", response.json())
+    print("삭제 성공: ", response.json())
+elif response.status_code == 400:
+    print("삭제 실패: ", response.json())
 else:
-    print("서버로부터 오류 응답을 받았습니다.")
-    print("응답 내용:", response.json())
+    print("삭제 실패: ", response.json())
 
 
 import requests
