@@ -6,7 +6,7 @@ from bson import ObjectId
 from Bot import exit_conditions, help
 from BotLib_fc.Main_Text_Classification_Model import Text_Classification as tc
 
-mongo_connect = "mongodb+srv://hongpc0099:hoz26064247@worklog.dxlbirn.mongodb.net/?retryWrites=true&w=majority"
+mongo_connect = "mongodb+srv://아이디:비밀번호@worklog.dxlbirn.mongodb.net/?retryWrites=true&w=majority"
 client = MongoClient(mongo_connect)
 db = client["WorkLog"]
 collection = db["Info"]
